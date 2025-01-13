@@ -1,0 +1,45 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+  <%- include("../partials/nav.ejs") %>
+
+  <div class="details content">
+    <h2><%= blog.title %></h2>
+    <div class="content">
+      <p><%= blog.body %></p>
+    </div>
+    <a class="delete" data-doc="<%= blog._id %>">
+      <img src="/trashcan.svg" alt="delete icon">
+    </a>
+  </div>
+
+  <%- include("../partials/footer.ejs") %>
+    
+  <script>
+    const trashcan = document.querySelector('a.delete');
+
+trashcan.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent default anchor behavior
+    const endpoint = `/blogs/${trashcan.dataset.doc}`;
+
+    fetch(endpoint, {
+        method: 'DELETE',
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then((data) => {
+        window.location.href = data.redirect; // Should log the success message
+        // Optionally redirect or update the UI here
+    })
+    .catch((err) => { 
+        console.log(err);
+    });
+  });
+  </script>
+</body>
+</html>
