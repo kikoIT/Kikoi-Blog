@@ -13,7 +13,7 @@ const handleErrors = (err) => {
     
      // incorrect password
      if (err.message === 'incorrect password') {
-        errors.email = 'password is incorrect';
+        errors.password = 'password is incorrect';
     }
 
     // duplicate error code
