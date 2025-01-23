@@ -13,7 +13,7 @@ const handleErrors = (err) => {
     
      // incorrect password
      if (err.message === 'incorrect password') {
-        errors.email = 'password is incorrect';
+        errors.password = 'password is incorrect';
     }
 
     // duplicate error code
@@ -78,9 +78,15 @@ const login_post = async (req, res) => {
     }
 }
 
+const logout_get = (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.redirect('/');
+}
+
 module.exports = {
     signup_get,
     login_get,
     signup_post,
-    login_post
+    login_post,
+    logout_get
 }
