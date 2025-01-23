@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const { requireAuth } = require('./middleware/authMiddleware');
 
 const blogRoutes = require('./routes/blogRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -27,7 +28,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
-  res.redirect('/blogs')
+  res.redirect('/blogs');
 });
 
 app.get('/about', (req, res) => {
@@ -38,7 +39,7 @@ app.get('/about', (req, res) => {
 app.use(authRoutes);
 
 // blog routes 
-app.use('/blogs', blogRoutes);
+app.use('/blogs',requireAuth ,blogRoutes);
 
 // 404 page
 app.use((req, res) => {
